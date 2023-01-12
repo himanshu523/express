@@ -1,22 +1,28 @@
 const express = require('express');
-const { createServer } = require('http');
+const bodyParser= require('body-parser');
 
 const app = express();
 app.get('/favicon.ico',(req,res)=>  res.status(204).end());
+app.use(bodyParser.urlencoded({extenteded:false}));
 
-app.use((req, res, next) => {
-  console.log('In the middleware!',req.url);
-  
-  next(); // Allows the request to continue to the next middleware in line
+
+app.use('/app-product',(req, res, next) => {
+  console.log('product');
+  res.send('<form action="/product" method="POST"><input type="text" name="title" placeholder="title"><input type="number" name="size" placeholder="size"><button type="submit">Add product</button></form>');
+
+});
+app.use('/product',(req,res,next)=>{
+    console.log(req.body);
+    res.redirect('/')
+
 });
 
-app.use((req, res, next) => {
-  console.log('In another middleware!');
-  res.send({ "key1": "value" })
+app.use('/',(req, res, next) => {
+    console.log('default');
+  res.send('<html><h2>hello</h2></html>');
   
 });
 
-const server = createServer(app);
 
 
-server.listen(3000);
+app.listen(3000);
