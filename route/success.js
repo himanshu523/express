@@ -2,13 +2,10 @@ const express =require('express');
 const route =express.Router();
 const path = require('path');
 
-const rootDir = require('../util/path');
+const successControllers = require('../controllres/successc')
 
-route.post('/',(req,res,nexr)=>{
-    res.sendFile(path.join(rootDir,'views','success.html'));
-    console.log('success');
-    //res.redirect('/contactus');
-})
+
+route.post('/',successControllers.getsuccess);
 
 module.exports = route;
 
